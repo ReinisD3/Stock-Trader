@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\FundsWereDeposited;
 use App\Models\Trade;
 use App\Models\User;
 use App\Repositories\FinhubRepository;
@@ -33,6 +34,8 @@ class UserController extends Controller
        $user = User::find(Auth::id());
        $total = $user->balance + (int) $deposit['amount'];
        $user->update(['balance' => $total]);
+
+       event(new FundsWereDeposited($deposit['amount'], $user->email));
 
        return Redirect::route('user.profile');
     }

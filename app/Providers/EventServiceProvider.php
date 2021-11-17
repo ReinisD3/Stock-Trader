@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\FundsWereDeposited;
 use App\Events\StockTradeEvent;
+use App\Listeners\DepositedFundsEmail;
 use App\Listeners\StockTradeCongratulationEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         StockTradeEvent::class => [
             StockTradeCongratulationEmail::class
+        ],
+        FundsWereDeposited::class => [
+            DepositedFundsEmail::class
         ]
     ];
 

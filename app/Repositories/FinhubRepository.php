@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 
 use App\Models\Company;
+use App\Models\CompanyProfile;
+use App\Models\CompanyRecommendation;
 use Finnhub\Api\DefaultApi;
 use Ramsey\Collection\Collection;
 
@@ -43,9 +45,20 @@ class FinhubRepository implements StockRepository
            $companyProfile->getName(),
            $companySymbol,
            null,
-          $companyProfile,
-           $this->getPrice($companySymbol),
-           $companyRecommendationTrend
+          new CompanyProfile(
+              $companyProfile->getCountry(),
+              $companyProfile->getCurrency(),
+              $companyProfile->getExchange(),
+              $companyProfile->getFinnhubIndustry(),
+              $companyProfile->getLogo(),
+              $companyProfile->getWeburl()
+          ),
+           new CompanyRecommendation(
+               $companyRecommendationTrend->getBuy(),
+               $companyRecommendationTrend->getSell(),
+               $companyRecommendationTrend->getHold(),
+               $companyRecommendationTrend->getPeriod()
+           )
        );
     }
 }

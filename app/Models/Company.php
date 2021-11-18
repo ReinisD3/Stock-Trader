@@ -4,24 +4,22 @@ namespace App\Models;
 
 class Company
 {
-    private $name;
-    private $symbol;
-    private $stockType;
-    private $price;
-    private $recommendationTrend;
-    private $companyProfile;
+    private string $name;
+    private string $symbol;
+    private ?string $stockType;
+    private ?CompanyProfile $companyProfile;
+    private ?CompanyRecommendation $recommendationTrend;
+
 
     public function __construct(string $name,
                                 string $symbol,
-                                ?string $stockType = null,
-                                ?object $companyProfile = null,
-                                ?float $price = null,
-                                ?object $recommendationTrend = null)
+                                ?string $stockType,
+                                ?CompanyProfile $companyProfile = null,
+                                ?CompanyRecommendation $recommendationTrend = null)
     {
         $this->name = $name;
         $this->symbol = $symbol;
-        $this->stockType = $stockType;
-        $this->price = $price;
+        $this->stockType = $stockType ?? null;
         $this->recommendationTrend = $recommendationTrend;
         $this->companyProfile = $companyProfile;
     }
@@ -41,22 +39,17 @@ class Company
         return $this->stockType;
     }
 
-    public function getPrice(): ?float
-    {
-        return $this->price;
-    }
-
     public function setPrice(?float $price): void
     {
         $this->price = $price;
     }
 
-    public function recommendationTrend(): object
+    public function recommendationTrend(): CompanyRecommendation
     {
         return $this->recommendationTrend;
     }
 
-    public function profile(): object
+    public function profile(): CompanyProfile
     {
         return $this->companyProfile;
     }

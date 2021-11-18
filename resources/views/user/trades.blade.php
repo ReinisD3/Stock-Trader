@@ -14,9 +14,12 @@
                         <tr>
                             <th class="p-3">Company</th>
                             <th class="p-3 text-left">Symbol</th>
+                            <th class="p-3 text-left">Buy date</th>
                             <th class="p-3 text-left">Buy price</th>
                             <th class="p-3 text-left">Buy amount</th>
+                            <th class="p-3 text-left">Total Usd invested</th>
                             <th class="p-3 text-left">Sell price</th>
+                            <th class="p-3 text-left">Sell date</th>
                             <th class="p-3 text-left">Current price</th>
                             <th class="p-3 text-left">profit/loss</th>
                         </tr>
@@ -24,15 +27,18 @@
                         <tbody>
                         @foreach($trades as $trade)
                             <tr class="bg-blue-100 lg:text-black">
-                                <td class="p-3">{{$trade->company}}</td>
+                                <td class="p-3"><a href="{{route('stocks.info', $trade->company_symbol)}}">{{$trade->company}}</a></td>
                                 <td class="p-3">{{$trade->company_symbol}}</td>
+                                <td class="p-3">{{$trade->created_at}}</td>
                                 <td class="p-3">{{$trade->buy_price}}</td>
                                 <td class="p-3">{{$trade->amount_bought}}</td>
+                                <td class="p-3">{{$trade->amount_bought*$trade->buy_price}}</td>
+                                <td class="p-3">{{$trade->sell_price ?? 'Active'}}</td>
                                 <td class="p-3">{{$trade->sell_price ?? 'Active'}}</td>
                                 <td class="p-3">{{$currentPrices[$trade->company_symbol] ?? 'no Data'}}</td>
-                                @if($currentPrices['profit'.$trade->id] < 0)
+                                @if($currentProfits[$trade->id] < 0)
                                     <div class="text-pink-700"> @else <div class="text-green-700 font-bold">  @endif
-                                        <td class="p-3">{{$currentPrices['profit'.$trade->id] ?? 'No data'}}</td>
+                                        <td class="p-3">{{$currentProfits[$trade->id] ?? 'No data'}}</td>
                                             </div>
                                                 <td class="p-3">
                                                     @if(!$trade->sell_price)

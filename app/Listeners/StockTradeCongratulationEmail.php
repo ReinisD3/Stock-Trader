@@ -14,11 +14,11 @@ class StockTradeCongratulationEmail implements ShouldQueue
 
     public function __construct()
     {
-
     }
 
     public function handle(StockTradeEvent $event)
     {
-        Mail::to('trader@gmail.com')->send(new TradeDone());
+
+        Mail::to($event->getUser()->email)->send(new TradeDone($event->getTrade()));
     }
 }

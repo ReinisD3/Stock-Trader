@@ -3,19 +3,39 @@
 namespace App\Repositories;
 
 
-use App\Models\Company;
-use App\Models\CompanyProfile;
-use App\Models\CompanyRecommendation;
+use App\Models\Company\Company;
+use App\Models\Company\CompanyProfile;
+use App\Models\Company\CompanyRecommendation;
+use App\Models\MarketNews;
 use Finnhub\Api\DefaultApi;
 use Ramsey\Collection\Collection;
 
 class FinhubRepository implements StockRepository
 {
-    private $client;
+    private DefaultApi $client;
 
     public function __construct(DefaultApi $client)
     {
         $this->client = $client;
+    }
+    public function getMarketNews(string $newsCategory):Collection
+    {
+        $news = $this->client->marketNews($newsCategory);
+        $collection = new Collection(MarketNews::class);
+
+        foreach ($news as $article)
+        {
+            $collection->add(
+                new MarketNews(
+                    $article->getHeadline(),
+                    $article->getDatetime(),
+                    $article->getImage(),
+                    $article->getSource(),
+                    $article->getUrl(),
+                    $article->getSummary()
+                ));
+        }
+        return $collection;
     }
     public function searchCompanies(string $name) : Collection
     {
@@ -36,6 +56,7 @@ class FinhubRepository implements StockRepository
     {
         return $this->client->quote($companySymbol)['c'];
     }
+
     public function getCompanyInfo(string $companySymbol):Company
     {
        $companyProfile = $this->client->companyProfile2($companySymbol);

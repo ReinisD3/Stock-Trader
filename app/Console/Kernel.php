@@ -25,7 +25,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-    }
+        $schedule->call(function () {
+            $cachedKey = 'marketNews';
+            cache()->delete($cachedKey);
+        })->everyFourMinutes();
+}
 
     /**
      * Register the commands for the application.

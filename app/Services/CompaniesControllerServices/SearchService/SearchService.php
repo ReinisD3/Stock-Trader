@@ -17,6 +17,8 @@ class SearchService
 
     public function handle(Request $request): Collection
     {
+        $request->validate(['company' => 'required']);
+
         $companyName = strtolower($request['company']);
         $cachedKey = 'companies.search.' . $companyName;
 

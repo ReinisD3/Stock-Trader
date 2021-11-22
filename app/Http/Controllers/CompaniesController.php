@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\CompaniesControllerServices\CompanyInfoService\CompanyInfoService;
+use App\Services\CompaniesControllerServices\IndexService\IndexService;
 use App\Services\CompaniesControllerServices\SearchService\SearchService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\View\View;
 
 
@@ -12,16 +14,22 @@ class CompaniesController extends Controller
 {
     private SearchService $searchService;
     private CompanyInfoService $companyInfoService;
+    private IndexService $indexService;
 
-    public function __construct(SearchService $searchService, CompanyInfoService $companyInfoService)
+    public function __construct(IndexService       $indexService,
+                                SearchService      $searchService,
+                                CompanyInfoService $companyInfoService)
     {
         $this->searchService = $searchService;
         $this->companyInfoService = $companyInfoService;
+        $this->indexService = $indexService;
     }
 
     public function index(): View
     {
-        return view('companies.index');
+        $companyLogos = $this->indexService->handle();
+
+        return view('companies.index', ['companyLogos' => $companyLogos]);
     }
 
     public function searchCompanies(Request $request): View
@@ -42,4 +50,5 @@ class CompaniesController extends Controller
         ]);
 
     }
+
 }

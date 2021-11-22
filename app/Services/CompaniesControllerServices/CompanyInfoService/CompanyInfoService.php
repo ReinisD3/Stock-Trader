@@ -2,6 +2,7 @@
 
 namespace App\Services\CompaniesControllerServices\CompanyInfoService;
 
+use App\Models\Company\CompanySymbol;
 use App\Models\User;
 use App\Repositories\StockRepository;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,10 @@ class CompanyInfoService
             $company = $this->repository->getCompanyInfo($companySymbol);
             cache()->put($cachedKey, $company);
         }
+        // Storing companies logos in DB for easy search
+        CompanySymbol::firstOrCreate(['name' => $company->getName(),
+            'symbol' => $company->getSymbol(),
+            'logo' => $company->profile()->getLogo()]);
 
         return new CompanyInfoResponse($company, $currentStockPrice, $userBalance);
     }

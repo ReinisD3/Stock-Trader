@@ -2,13 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Models\Company;
+use App\Models\Company\Company;
 use Ramsey\Collection\Collection;
 
 
-Interface StockRepository
+interface StockRepository
 {
-    public function searchCompanies(string $name):Collection;
-    public function getPrice(string $companySymbol):float;
-    public function getCompanyInfo(string $companySymbol):Company;
+    public function getMarketNews(string $newsCategory): Collection;
+
+    public function searchCompanies(string $name): Collection;
+
+    public function getPrice(string $companySymbol): float;
+
+    public function getCompanyInfo(string $companySymbol): Company;
 }

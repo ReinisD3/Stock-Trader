@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Trade;
+use App\Models\TradeTransaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,9 +13,9 @@ class TradeDone extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    private Trade $trade;
+    private TradeTransaction $trade;
 
-    public function __construct(Trade $trade)
+    public function __construct(TradeTransaction $trade)
     {
         $this->trade = $trade;
     }

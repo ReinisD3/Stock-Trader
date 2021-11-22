@@ -2,7 +2,7 @@
 
 namespace App\Services\CompaniesControllerServices\CompanyInfoService;
 
-use App\Models\Company;
+use App\Models\Company\Company;
 
 class CompanyInfoResponse
 {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Helpers\PaginationHelper;
 use App\Http\Requests\BuyCompanyStockRequest;
 use App\Http\Requests\SellCompanyStockRequest;
 use App\Http\Requests\ShowTradesRequest;
@@ -60,7 +61,7 @@ class TradesController extends Controller
 
     public function sell(SellCompanyStockRequest $request, Trade $trade): RedirectResponse
     {
-        $this->sellService->handle($request, $trade);
+        $this->sellService->handle($request, $trade, auth()->user()->id);
 
         return redirect()->route('user.history');
     }
@@ -72,7 +73,7 @@ class TradesController extends Controller
 
 
         return view('user.trades', [
-            'trades' => $response->getTrades(),
+            'trades' => PaginationHelper::paginate($response->getTrades(),8),
             'companyList' => $response->getCompanyList(),
             'sortDirection' => $response->getSortDirection()
         ]);
@@ -84,8 +85,11 @@ class TradesController extends Controller
 
 
         return view('user.tradesTransactions',
-            ['trades' => $response->geTradesTransactions(),
+            ['trades' =>$response->geTradesTransactions(),
                 'companyList' => $response->getCompanyList(),
-                'sortDirection' => $response->getSortDirection()]);
+                'sortDirection' => $response->getSortDirection(),
+                'companyFiltered' => $response->getCompanyFiltered(),
+                'transactionType' => $response->getTransactionType()
+            ]);
     }
 }

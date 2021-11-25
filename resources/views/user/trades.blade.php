@@ -60,9 +60,9 @@
                                     <a href="{{route('stocks.info', $trade->company_symbol)}}">{{$trade->company}}</a>
                                 </td>
                                 <td class="p-3">{{$trade->company_symbol}}</td>
-                                <td class="p-3">{{$trade->buy_price}}</td>
+                                <td class="p-3">{{number_format($trade->buy_price,2)}}</td>
                                 <td class="p-3">{{$trade->amount_bought}}</td>
-                                <td class="p-3">{{$trade->usd_invested}}</td>
+                                <td class="p-3">{{number_format($trade->usd_invested,2)}}</td>
 
                                 @if($trade->profit < 0)
                                     <td class="py-3 px-5 mb-4 bg-red-100 text-red-900 text-sm rounded-md border border-red-200">
@@ -92,7 +92,7 @@
                         </tbody>
                     </table>
 
-{{--                    {{ $trades->links() }}--}}
+                    {{ $trades->appends(request()->all())->links() }}
                 </div>
             </div>
         </div>

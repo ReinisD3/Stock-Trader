@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\TradesTransactionCompanyFilterExist;
 use Illuminate\Foundation\Http\FormRequest;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class ShowTradeTransactionsRequest extends FormRequest
 {
@@ -24,10 +25,12 @@ class ShowTradeTransactionsRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'companyFilter' => [new TradesTransactionCompanyFilterExist()] ,
-            'sortBy' => ['in:usd_invested,profit,profit_to_investment'] ,
-            'sortDirection' => ['in:asc,desc']
+            'companyFilter' => [new TradesTransactionCompanyFilterExist(), 'nullable'] ,
+            'sortBy' => ['in:usd_invested,profit,profit_to_investment','nullable'] ,
+            'sortDirection' => ['in:asc,desc','nullable'],
+           'transactionType' =>['in:buy,sell,all', 'nullable']
         ];
     }
 }

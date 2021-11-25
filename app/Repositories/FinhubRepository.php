@@ -35,6 +35,7 @@ class FinhubRepository implements StockRepository
                     $article->getSummary()
                 ));
         }
+        $collection->sort('getDateTime', 'desc');
         return $collection;
     }
     public function searchCompanies(string $name) : Collection

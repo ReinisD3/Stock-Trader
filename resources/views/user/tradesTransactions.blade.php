@@ -15,17 +15,17 @@
                             <label for="transactionType" class="text-sm text-gray-600 dark:text-gray-400">Transaction Type
                                 :</label>
                             <select class="h-9 text-sm content-center" id="transactionType" name="transactionType">
-                                <option value="" ></option>
-                                <option value="buy" @if (request('transactionType') === "buy") selected="selected" @endif  >Buy</option>
-                                <option value="sell" @if (request('transactionType') === "sell") selected="selected" @endif >Sell</option>
+                                <option value="all" >All</option>
+                                <option value="buy" @if ($transactionType == "buy") selected @endif  >Buy</option>
+                                <option value="sell" @if ($transactionType == "sell") selected @endif >Sell</option>
                             </select>
                             <label for="companyFilter" class="text-sm text-gray-600 dark:text-gray-400">Company
                                 :</label>
                             <select class="h-9 text-sm content-center" id="companyFilter" name="companyFilter">
-                                <option value="" ></option>
+                                <option value="" selected>All</option>
                                 @foreach($companyList as $company)
                                     <option class="h-8" value="{{$company->company}}"
-                                            @if (request('companyFilter') === $company->company) selected="selected" @endif>{{$company->company}}
+                                            @if ($companyFiltered == $company->company) selected @endif>{{$company->company}}
                                     </option>
                                 @endforeach
                             </select>
@@ -44,22 +44,22 @@
                             <th class="p-3 text-left">
                                 <form action="{{route('user.history')}}">
                                     <input hidden name="sortDirection" type="text" value="{{$sortDirection}}">
-                                    <input hidden name="companyFilter" type="text" value="{{request('companyFilter')}}">
-                                    <input hidden name="transactionType" type="text" value="{{request('transactionType')}}">
+                                    <input hidden name="companyFilter" type="text" value="{{$companyFiltered}}">
+                                    <input hidden name="transactionType" type="text" value="{{$transactionType}}">
                                     <button value="usd_invested" name="sortBy" type="submit">Usd amount</button>
                                 </form></th>
                             <th class="p-3 text-left">Sell price</th>
                             <th class="p-3 text-left"><form action="{{route('user.history')}}">
                                     <input hidden name="sortDirection" type="text" value="{{$sortDirection}}">
-                                    <input hidden name="companyFilter" type="text" value="{{request('companyFilter')}}">
-                                    <input hidden name="transactionType" type="text" value="{{request('transactionType')}}">
+                                    <input hidden name="companyFilter" type="text" value="{{$companyFiltered}}">
+                                    <input hidden name="transactionType" type="text" value="{{$transactionType}}">
                                     <button value="profit" name="sortBy" type="submit">Profit</button>
 
                                 </form></th>
                             <th class="p-3 text-left"><form action="{{route('user.history')}}">
                                     <input hidden name="sortDirection" type="text" value="{{$sortDirection}}">
-                                    <input hidden name="companyFilter" type="text" value="{{request('companyFilter')}}">
-                                    <input hidden name="transactionType" type="text" value="{{request('transactionType')}}">
+                                    <input hidden name="companyFilter" type="text" value="{{$companyFiltered}}">
+                                    <input hidden name="transactionType" type="text" value="{{$transactionType}}">
                                     <button value="profit_to_investment" name="sortBy" type="submit">Profit/Invested</button>
                                 </form></th>
                         </tr>
@@ -70,9 +70,9 @@
                             <td class="p-3">{{$trade->sell_price ? 'Sell' : 'Buy'}}</td>
                             <td class="p-3">{{$trade->company}}</td>
                             <td class="p-3">{{$trade->created_at}}</td>
-                            <td class="p-3">{{$trade->buy_price}}</td>
+                            <td class="p-3">{{number_format($trade->buy_price,2)}}</td>
                             <td class="p-3">{{$trade->amount_bought}}</td>
-                            <td class="p-3">{{$trade->usd_invested}}</td>
+                            <td class="p-3">{{number_format($trade->usd_invested,2)}}</td>
                             <td class="p-3">{{$trade->sell_price ?? ''}}</td>
                             @if($trade->sell_price)
                             @if($trade->profit < 0)
@@ -94,7 +94,7 @@
 
                         </tbody>
                     </table>
-                    {{ $trades->links() }}
+                    {{ $trades->appends(request()->all())->links() }}
 
                 </div>
             </div>

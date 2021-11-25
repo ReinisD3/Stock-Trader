@@ -57,7 +57,7 @@
                     <p class="text-gray-500 mt-1 text-center">{{$company->profile()->getFinnhubIndustry()}}</p>
                     <br/>
                     <button class="bg-blue-700 py-2 px-4 rounded-full text-white text-sm font-semibold">
-                        <a href="{{$company->profile()->getWeburl()}}">Visit Official Page</a></button>
+                        <a href="{{$company->profile()->getWeburl()}}" target="_blank" >Visit Official Page</a></button>
 
 
                 </div>

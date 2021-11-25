@@ -20,8 +20,8 @@
                             <img
                                 class="lg:h-60 xl:h-56 md:h-64 sm:h-72 xs:h-72 h-72  rounded w-full object-cover object-center mb-6"
                                 src="{{$article->getImage()}}" alt="Image Size 720x400">
-                            <h3 class="tracking-widest text-indigo-500 text-xs font-medium title-font"><a
-                                    href="{{$article->getUrl()}}">Read more at {{$article->getSource()}}</a></h3>
+                            <h3 class="tracking-widest text-indigo-500 text-xs font-medium title-font" ><a
+                                    href="{{$article->getUrl()}}" target="_blank" >Read more at {{$article->getSource()}}</a></h3>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{{$article->getHeadline()}}</h2>
                             <p class="leading-relaxed text-base">{{$article->getSummary()}}</p>
                         </div>

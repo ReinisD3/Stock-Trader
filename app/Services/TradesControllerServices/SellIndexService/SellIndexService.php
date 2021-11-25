@@ -16,7 +16,8 @@ class SellIndexService
     {
         $this->repository = $repository;
     }
-    public function handle(Trade $trade):SellIndexResponse
+
+    public function handle(Trade $trade): SellIndexResponse
     {
         $companySymbol = $trade->company_symbol;
         $currentStockPrice = $this->repository->getPrice($companySymbol);
@@ -29,6 +30,6 @@ class SellIndexService
             cache()->put($cachedKey, $company);
         }
 
-        return new SellIndexResponse($company,$trade,$currentStockPrice);
+        return new SellIndexResponse($company, $trade, $currentStockPrice);
     }
 }

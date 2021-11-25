@@ -62,7 +62,7 @@
                                             <div
                                                 class="pt-4 bg-white w-auto md:w-20 justify-center items-center shadow px-6 py-4 flex flex-col">
                                                 <img src="{{$company->logo}}" alt="{{$company->symbol}}" title="img"
-                                                     class="h-12 w-12 object-cover">
+                                                     class=" object-cover">
                                                 <h4 class="mt-8 border-b-2">{{$company->symbol}}</h4>
                                             </div>
                                         </div>

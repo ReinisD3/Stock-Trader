@@ -2,9 +2,11 @@
 
 namespace App\Services\TradesControllerServices\ShowTradesService;
 
+
 use App\Http\Requests\ShowTradesRequest;
 use App\Models\Trade\Trade;
 use App\TradeCalculator\TradeCalculator;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class ShowTradesService
@@ -18,7 +20,6 @@ class ShowTradesService
 
     public function handle(ShowTradesRequest $request, int $userId): ShowTradesResponse
     {
-        $sortDirection = 'desc';
         $filter = $request->toArray();
 
         $trades = Trade::filter($filter, $userId)
@@ -26,11 +27,11 @@ class ShowTradesService
         $sortedTradesWithCalculations = $this->tradesCalculator->addCalculationsToTrades($trades);
 
         if (isset($filter['sortBy'])) {
-            if($filter['sortDirection'] === 'desc'){
+            if ($filter['sortDirection'] === 'desc') {
                 $sortedTradesWithCalculations = $sortedTradesWithCalculations->sortByDesc($filter['sortBy']);
                 $sortDirection = 'asc';
             }
-            if($filter['sortDirection'] === 'asc'){
+            if ($filter['sortDirection'] === 'asc') {
                 $sortedTradesWithCalculations = $sortedTradesWithCalculations->sortBy($filter['sortBy']);
                 $sortDirection = 'desc';
             }
@@ -41,7 +42,9 @@ class ShowTradesService
             ->get();
 
 
-        return new ShowTradesResponse($sortedTradesWithCalculations, $companyList, $sortDirection);
+        return new ShowTradesResponse($sortedTradesWithCalculations,
+            $companyList,
+            $sortDirection ?? 'desc');
 
 
     }

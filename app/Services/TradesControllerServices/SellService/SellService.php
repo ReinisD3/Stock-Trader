@@ -22,7 +22,7 @@ class SellService
         $this->tradeCalculator = $tradeCalculator;
     }
 
-    public function handle(SellCompanyStockRequest $request, Trade $trade): void
+    public function handle(SellCompanyStockRequest $request, Trade $trade, int $userId): void
     {
         $sellPrice = $this->repository->getPrice($trade->company_symbol);
         $profit = $this->tradeCalculator->calculateProfit($request['amount'], $trade->buy_price, $sellPrice);
@@ -51,7 +51,7 @@ class SellService
                 'usd_invested' => $trade->buy_price * $amountLeft]);
         }
 
-        $user = User::find(auth()->user()->id);
+        $user = User::find($userId);
         $user->update(['balance' => $user->balance + $request['amount'] * $sellPrice]);
 
         event(new SellTradeEvent($tradeTransaction, $user));

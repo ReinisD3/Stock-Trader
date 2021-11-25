@@ -2,7 +2,6 @@
 
 namespace App\Services\TradesControllerServices\BuyService;
 
-use App\Console\Commands\UpdateNews;
 use App\Console\Commands\UpdateQuotes;
 use App\Events\StockTradeEvent;
 use App\Models\Trade\Trade;

@@ -26,7 +26,7 @@ class stockMarketIsOpen implements Rule
     public function passes($attribute, $value)
     {
         $time = now(config('openMarketTimes.timeZone'))->toTimeString('minute');
-        return $time > config('openMarketTimes.marketOpens') || $time < config('openMarketTimes.marketCloses');
+        return $time > config('openMarketTimes.marketOpens') && $time < config('openMarketTimes.marketCloses');
 
     }
 
